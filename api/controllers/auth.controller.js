@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const handleErrors = require("../utils/handleErrors");
+const {handleErrors} = require("../errors/handleErrors");
 
 const register = async (req, res) => {
     try {
@@ -25,7 +25,6 @@ const login = async (req, res) => {
             { id : user._id, isSeller : user.isSeller},
             process.env.JWT_KEY
         )
-
         const {password , ...userInfo} = user._doc;
         res.cookie("accessToken", token , {httpOnly : true});
         return res.status(200).json({ userInfo });

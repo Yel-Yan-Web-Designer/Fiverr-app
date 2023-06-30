@@ -21,12 +21,20 @@ const reviewRoute = require('./routes/review.route');
 
 // routes
 app.use('/api/v1/auth', authRoute);
-app.use('/api/v1/users', userRoute);
+app.use('/api/v1/users' ,userRoute);
 app.use('/api/v1/gigs' , gigRoute);
-app.use('/api/v1/orders' , orderRoute);
+app.use('/api/v1/orders' ,orderRoute);
 app.use('/api/v1/conversations' , conversationRoute);
 app.use('/api/v1/messages' , messageRoute);
 app.use('/api/v1/reviews' , reviewRoute);
+
+// Error Middleware
+app.use((err, req, res, next) => {
+  const errStatus = err.status || 500;
+  const errMessage = err.message || "Something went wrong!";
+
+  return res.status(errStatus).send(errMessage);
+})
 
 const start = async () => {
     try {
